@@ -36,7 +36,7 @@ const useStyles = makeStyles({
     background: "#292C3A",
   },
   barColorPrimary: {
-    backgroundColor: "#1FA25C",
+    backgroundColor: "#21C795",
   },
 });
 

@@ -21,28 +21,28 @@ import Custombutton from "../Button/Custombutton";
 import Progressbar from "../Progressbar/Progressbar";
 
 function createData(
-  date,
   ticker,
   securityname,
   change,
   lastprice,
-  position,
+  weight,
+  quantity,
   value,
   cost,
   totalreturn,
-  status
+  ctr
 ) {
   return {
-    date,
     ticker,
     securityname,
     change,
     lastprice,
-    position,
+    weight,
+    quantity,
     value,
     cost,
     totalreturn,
-    status,
+    ctr,
   };
 }
 const TableCell = withStyles({
@@ -51,20 +51,8 @@ const TableCell = withStyles({
   },
 })(MuiTableCell);
 const rows = [
+  createData(50, 2005, 20, 5087, "80%", 734760, 36777, 55563, 5788, 80),
   createData(
-    "05 APR 21",
-    <Custombutton bankName="HDFC" dChange={true} />,
-    "HDFC",
-    1.0,
-    22,
-    <Progressbar position="50" />,
-    734760,
-    36777,
-    20,
-    <Chartt value="0.30" rating="up" />
-  ),
-  createData(
-    "05 APR 21",
     <Custombutton bankName="BANKBARODA" dChange={false} />,
     "BANK OF BARODA",
     -1.0,
@@ -72,11 +60,11 @@ const rows = [
     <Progressbar position="20" />,
     734760,
     36777,
+    36781,
     20,
-    <Chartt value="0.30" rating="up" />
+    -20
   ),
   createData(
-    "05 APR 21",
     <Custombutton bankName="BAJAJHIND" dChange={true} />,
     "BAJAJ AUTO",
     1.0,
@@ -84,11 +72,11 @@ const rows = [
     <Progressbar position="85" />,
     734760,
     36777,
+    36781,
     20,
-    <Chartt value="0.30" rating="up" />
+    20
   ),
   createData(
-    "05 APR 21",
     <Custombutton bankName="NAUKRI" dChange={false} />,
     "NAUKRI",
     -1.0,
@@ -96,11 +84,11 @@ const rows = [
     <Progressbar position="50" />,
     734760,
     36777,
+    36781,
     20,
-    <Chartt value="0.30" rating="down" />
+    20
   ),
   createData(
-    "05 APR 21",
     <Custombutton bankName="NAUKRI" dChange={false} />,
     "NAUKRI",
     -1.0,
@@ -108,11 +96,11 @@ const rows = [
     <Progressbar position="50" />,
     734760,
     36777,
+    36781,
     20,
-    <Chartt value="0.30" rating="down" />
+    20
   ),
   createData(
-    "05 APR 21",
     <Custombutton bankName="HDFCBANK" dChange={true} />,
     "HDFC",
     1.0,
@@ -120,11 +108,11 @@ const rows = [
     <Progressbar position="50" />,
     734760,
     36777,
+    36781,
     20,
-    <Chartt value="0.30" rating="up" />
+    -20
   ),
   createData(
-    "05 APR 21",
     <Custombutton bankName="HDFCBANK" dChange={true} />,
     "HDFC",
     1.0,
@@ -132,11 +120,11 @@ const rows = [
     <Progressbar position="50" />,
     734760,
     36777,
+    36781,
     20,
-    <Chartt value="0.30" rating="down" />
+    -20
   ),
   createData(
-    "05 APR 21",
     <Custombutton bankName="AXISBANK" dChange={true} />,
     "AXIS BANK",
     1.0,
@@ -144,11 +132,11 @@ const rows = [
     <Progressbar position="50" />,
     734760,
     36777,
+    36781,
     20,
-    <Chartt value="0.30" rating="up" />
+    20
   ),
   createData(
-    "05 APR 21",
     <Custombutton bankName="HDFCBANK" dChange={false} />,
     "HDFC",
     -1.0,
@@ -156,11 +144,11 @@ const rows = [
     <Progressbar position="50" />,
     734760,
     36777,
+    36781,
     20,
-    <Chartt value="0.30" rating="up" />
+    -20
   ),
   createData(
-    "05 APR 21",
     <Custombutton bankName="ABBOTBANK" dChange={true} />,
     "ABBOT",
     1.0,
@@ -168,8 +156,9 @@ const rows = [
     <Progressbar position="50" />,
     734760,
     36777,
+    36781,
     20,
-    <Chartt value="0.30" rating="up" />
+    20
   ),
 ];
 
@@ -200,12 +189,6 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  {
-    id: "date",
-    numeric: false,
-    disablePadding: true,
-    label: "DATE",
-  },
   { id: "ticker", numeric: true, disablePadding: false, label: "TICKER" },
   {
     id: "securityname",
@@ -220,7 +203,8 @@ const headCells = [
     disablePadding: false,
     label: "LAST PRICE",
   },
-  { id: "position", numeric: true, disablePadding: false, label: "POSITION" },
+  { id: "weight", numeric: true, disablePadding: false, label: "WEIGHT" },
+  { id: "quantity", numeric: true, disablePadding: false, label: "QUANTITY" },
   { id: "value", numeric: true, disablePadding: false, label: "VALUE" },
   { id: "cost", numeric: true, disablePadding: true, label: "COST" },
   {
@@ -229,7 +213,7 @@ const headCells = [
     disablePadding: true,
     label: "TOTAL RETURN",
   },
-  { id: "status", numeric: true, disablePadding: false, label: "STATUS" },
+  { id: "ctr", numeric: true, disablePadding: false, label: "CTR" },
 ];
 
 function EnhancedTableHead(props) {
@@ -240,11 +224,15 @@ function EnhancedTableHead(props) {
 
   return (
     <TableHead>
-      <TableRow style={{ borderBottom: "solid 2px", color: "rgb(41,44,58)" }}>
+      <TableRow>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            style={{ fontSize: "11px", fontWeight: "450" }}
+            style={{
+              fontSize: "12px",
+              fontWeight: "450",
+              letterSpacing: "1px",
+            }}
             align={"left"}
             padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={orderBy === headCell.id ? order : false}
@@ -362,12 +350,21 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "1450px",
   },
   tableCell: {
-    color: "rgb(148, 149, 157)!important",
-    fontSize: "12px",
+    color: "#94959D!important",
+    fontSize: "13px",
+    letterSpacing: "1px",
   },
   tableCellRed: {
-    color: "#F30144",
+    color: "#DA4F30",
     fontSize: "12px",
+  },
+  tableCellGreen: {
+    color: "#21CE99",
+    fontSize: "12px",
+  },
+  firstRow: {
+    backgroundColor: "#070A1B",
+    pointerEvents: "none",
   },
 }));
 
@@ -426,25 +423,12 @@ export default function EnhancedTable() {
                         role="checkbox"
                         tabIndex={-1}
                         key={row.name}
+                        className={isNaN(row.ticker) ? "" : classes.firstRow}
                       >
-                        <TableCell
-                          align="left"
-                          component="th"
-                          scope="row"
-                          padding="none"
-                          className={classes.tableCell}
-                        >
-                          {row.date}
+                        <TableCell className={classes.tableCell} align="left">
+                          {row.ticker}
                         </TableCell>
-                        <TableCell align="center">{row.ticker}</TableCell>
-                        <TableCell
-                          className={
-                            row.change < 1
-                              ? classes.tableCellRed
-                              : classes.tableCell
-                          }
-                          align="left"
-                        >
+                        <TableCell className={classes.tableCell} align="left">
                           {row.securityname}
                         </TableCell>
                         <TableCell
@@ -461,7 +445,10 @@ export default function EnhancedTable() {
                           $ {row.lastprice}
                         </TableCell>
                         <TableCell align="left" className={classes.tableCell}>
-                          {row.position}
+                          {row.weight}
+                        </TableCell>
+                        <TableCell align="left" className={classes.tableCell}>
+                          {numberWithCommas(row.quantity)}
                         </TableCell>
                         <TableCell align="left" className={classes.tableCell}>
                           $ {numberWithCommas(row.value)}
@@ -472,8 +459,17 @@ export default function EnhancedTable() {
                         <TableCell align="left" className={classes.tableCell}>
                           $ {row.totalreturn}
                         </TableCell>
-                        <TableCell align="right" className={classes.tableCell}>
-                          {row.status}
+                        <TableCell
+                          align="left"
+                          className={
+                            row.ctr < 0 && isNaN(row.ticker)
+                              ? classes.tableCellRed
+                              : !isNaN(row.ticker)
+                              ? classes.tableCell
+                              : classes.tableCellGreen
+                          }
+                        >
+                          {row.ctr}%
                         </TableCell>
                       </TableRow>
                     );
