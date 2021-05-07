@@ -60,7 +60,7 @@ const options = {
 const LineChart = (props) => (
   <>
     <Grid container direction="row" alignItems="center" spacing={2}>
-      <Grid item xs={6}>
+      <Grid item xs={12} sm={12} lg={6}>
         <div className={classes.br}>
           <Line
             data={props.rating === "down" ? decreasingData : increasingData}
@@ -69,10 +69,10 @@ const LineChart = (props) => (
         </div>
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item xs={6} sm={6} lg={3}>
         1.22
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={6} sm={6} lg={3}>
         {props.rating === "up" ? (
           <ArrowUpwardIcon className={classes.upArrow} />
         ) : (
