@@ -16,7 +16,6 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import MuiTableCell from "@material-ui/core/TableCell";
 import Container from "@material-ui/core/Container";
-import Chartt from "../Chart/Chart";
 import Custombutton from "../Button/Custombutton";
 import Progressbar from "../Progressbar/Progressbar";
 
@@ -50,13 +49,15 @@ const TableCell = withStyles({
     borderBottom: "none",
   },
 })(MuiTableCell);
-const rows = [
+const secondHeader = [
   createData(50, 2005, 20, 5087, "80%", 734760, 36777, 55563, 5788, 80),
+];
+const rows = [
   createData(
     <Custombutton bankName="BANKBARODA" dChange={false} />,
     "BANK OF BARODA",
     -1.0,
-    22,
+    25,
     <Progressbar position="20" />,
     734760,
     36777,
@@ -68,7 +69,7 @@ const rows = [
     <Custombutton bankName="BAJAJHIND" dChange={true} />,
     "BAJAJ AUTO",
     1.0,
-    22,
+    223,
     <Progressbar position="85" />,
     734760,
     36777,
@@ -80,7 +81,7 @@ const rows = [
     <Custombutton bankName="NAUKRI" dChange={false} />,
     "NAUKRI",
     -1.0,
-    22,
+    222,
     <Progressbar position="50" />,
     734760,
     36777,
@@ -92,7 +93,7 @@ const rows = [
     <Custombutton bankName="NAUKRI" dChange={false} />,
     "NAUKRI",
     -1.0,
-    22,
+    224,
     <Progressbar position="50" />,
     734760,
     36777,
@@ -116,7 +117,7 @@ const rows = [
     <Custombutton bankName="HDFCBANK" dChange={true} />,
     "HDFC",
     1.0,
-    22,
+    228,
     <Progressbar position="50" />,
     734760,
     36777,
@@ -160,6 +161,54 @@ const rows = [
     20,
     20
   ),
+  createData(
+    <Custombutton bankName="ABBOTBANK" dChange={true} />,
+    "ABBOT",
+    1.0,
+    22,
+    <Progressbar position="50" />,
+    734760,
+    36777,
+    36781,
+    20,
+    20
+  ),
+  createData(
+    <Custombutton bankName="ABBOTBANK" dChange={true} />,
+    "ABBOT",
+    1.0,
+    22,
+    <Progressbar position="50" />,
+    734760,
+    36777,
+    36781,
+    20,
+    20
+  ),
+  createData(
+    <Custombutton bankName="ABBOTBANK" dChange={true} />,
+    "ABBOT",
+    1.0,
+    22,
+    <Progressbar position="50" />,
+    734760,
+    36777,
+    36781,
+    20,
+    20
+  ),
+  createData(
+    <Custombutton bankName="ABBOTBANK" dChange={true} />,
+    "ABBOT",
+    1.0,
+    22,
+    <Progressbar position="50" />,
+    734760,
+    36777,
+    36781,
+    20,
+    20
+  ),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -179,12 +228,14 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  var array2 = array;
+  const stabilizedThis = array2.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
+  console.log(stabilizedThis);
   return stabilizedThis.map((el) => el[0]);
 }
 
@@ -323,6 +374,10 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(5),
     paddingRight: theme.spacing(5),
   },
+
+  container: {
+    maxHeight: 490,
+  },
   paginationColor: {
     backgroundColor: "#141629",
   },
@@ -354,6 +409,15 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "13px",
     letterSpacing: "1px",
   },
+  tableCellSticky: {
+    color: "#94959D!important",
+    backgroundColor: "#070A1B",
+    fontSize: "13px",
+    letterSpacing: "1px",
+    position: "sticky",
+    top: "0",
+    zIndex: "99999",
+  },
   tableCellRed: {
     color: "#DA4F30",
     fontSize: "12px",
@@ -364,7 +428,6 @@ const useStyles = makeStyles((theme) => ({
   },
   firstRow: {
     backgroundColor: "#070A1B",
-    pointerEvents: "none",
   },
 }));
 
@@ -373,7 +436,7 @@ export default function EnhancedTable() {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -400,12 +463,8 @@ export default function EnhancedTable() {
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <EnhancedTableToolbar />
-          <TableContainer>
-            <Table
-              className={classes.table}
-              aria-labelledby="tableTitle"
-              aria-label="enhanced table"
-            >
+          <TableContainer className={classes.container}>
+            <Table className={classes.table}>
               <EnhancedTableHead
                 classes={classes}
                 order={order}
@@ -414,6 +473,44 @@ export default function EnhancedTable() {
                 rowCount={rows.length}
               />
               <TableBody>
+                <TableRow
+                  hover
+                  role="checkbox"
+                  className={classes.firstRow}
+                  tabIndex={-1}
+                >
+                  <TableCell align="left" className={classes.tableCellSticky}>
+                    {secondHeader[0].ticker}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCellSticky}>
+                    {secondHeader[0].securityname}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCellSticky}>
+                    {secondHeader[0].change}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCellSticky}>
+                    {secondHeader[0].lastprice}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCellSticky}>
+                    {secondHeader[0].weight}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCellSticky}>
+                    {secondHeader[0].quantity}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCellSticky}>
+                    {secondHeader[0].value}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCellSticky}>
+                    {secondHeader[0].cost}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCellSticky}>
+                    {secondHeader[0].totalreturn}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCellSticky}>
+                    {secondHeader[0].ctr}
+                  </TableCell>
+                </TableRow>
+
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
@@ -423,7 +520,6 @@ export default function EnhancedTable() {
                         role="checkbox"
                         tabIndex={-1}
                         key={row.name}
-                        className={isNaN(row.ticker) ? "" : classes.firstRow}
                       >
                         <TableCell className={classes.tableCell} align="left">
                           {row.ticker}
@@ -436,7 +532,9 @@ export default function EnhancedTable() {
                           className={
                             row.change < 1
                               ? classes.tableCellRed
-                              : classes.tableCell
+                              : isNaN(row.ticker)
+                              ? classes.tableCell
+                              : ""
                           }
                         >
                           {row.change}.00%
@@ -465,7 +563,7 @@ export default function EnhancedTable() {
                             row.ctr < 0 && isNaN(row.ticker)
                               ? classes.tableCellRed
                               : !isNaN(row.ticker)
-                              ? classes.tableCell
+                              ? ""
                               : classes.tableCellGreen
                           }
                         >
