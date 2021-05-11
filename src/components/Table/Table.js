@@ -6,7 +6,6 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -18,8 +17,9 @@ import MuiTableCell from "@material-ui/core/TableCell";
 import Container from "@material-ui/core/Container";
 import Custombutton from "../Button/Custombutton";
 import Progressbar from "../Progressbar/Progressbar";
-
+import styles from "./Table.module.css";
 function createData(
+  id,
   ticker,
   securityname,
   change,
@@ -32,6 +32,7 @@ function createData(
   ctr
 ) {
   return {
+    id,
     ticker,
     securityname,
     change,
@@ -54,11 +55,12 @@ const secondHeader = [
 ];
 const rows = [
   createData(
+    1,
     <Custombutton bankName="BANKBARODA" dChange={false} />,
     "BANK OF BARODA",
     -1.0,
     25,
-    <Progressbar position="20" />,
+    <Progressbar position={20} />,
     734760,
     36777,
     36781,
@@ -66,11 +68,12 @@ const rows = [
     -20
   ),
   createData(
+    2,
     <Custombutton bankName="BAJAJHIND" dChange={true} />,
     "BAJAJ AUTO",
     1.0,
     223,
-    <Progressbar position="85" />,
+    <Progressbar position={85} />,
     734760,
     36777,
     36781,
@@ -78,11 +81,12 @@ const rows = [
     20
   ),
   createData(
+    3,
     <Custombutton bankName="NAUKRI" dChange={false} />,
     "NAUKRI",
     -1.0,
     222,
-    <Progressbar position="50" />,
+    <Progressbar position={50} />,
     734760,
     36777,
     36781,
@@ -90,11 +94,12 @@ const rows = [
     20
   ),
   createData(
+    4,
     <Custombutton bankName="NAUKRI" dChange={false} />,
     "NAUKRI",
     -1.0,
     224,
-    <Progressbar position="50" />,
+    <Progressbar position={50} />,
     734760,
     36777,
     36781,
@@ -102,11 +107,12 @@ const rows = [
     20
   ),
   createData(
+    5,
     <Custombutton bankName="HDFCBANK" dChange={true} />,
     "HDFC",
     1.0,
     22,
-    <Progressbar position="50" />,
+    <Progressbar position={50} />,
     734760,
     36777,
     36781,
@@ -114,11 +120,12 @@ const rows = [
     -20
   ),
   createData(
+    6,
     <Custombutton bankName="HDFCBANK" dChange={true} />,
     "HDFC",
     1.0,
     228,
-    <Progressbar position="50" />,
+    <Progressbar position={50} />,
     734760,
     36777,
     36781,
@@ -126,11 +133,12 @@ const rows = [
     -20
   ),
   createData(
+    7,
     <Custombutton bankName="AXISBANK" dChange={true} />,
     "AXIS BANK",
     1.0,
     22,
-    <Progressbar position="50" />,
+    <Progressbar position={50} />,
     734760,
     36777,
     36781,
@@ -138,11 +146,12 @@ const rows = [
     20
   ),
   createData(
+    8,
     <Custombutton bankName="HDFCBANK" dChange={false} />,
     "HDFC",
     -1.0,
     22,
-    <Progressbar position="50" />,
+    <Progressbar position={50} />,
     734760,
     36777,
     36781,
@@ -150,11 +159,12 @@ const rows = [
     -20
   ),
   createData(
+    9,
     <Custombutton bankName="ABBOTBANK" dChange={true} />,
     "ABBOT",
     1.0,
     22,
-    <Progressbar position="50" />,
+    <Progressbar position={50} />,
     734760,
     36777,
     36781,
@@ -162,11 +172,12 @@ const rows = [
     20
   ),
   createData(
+    10,
     <Custombutton bankName="ABBOTBANK" dChange={true} />,
     "ABBOT",
     1.0,
     22,
-    <Progressbar position="50" />,
+    <Progressbar position={50} />,
     734760,
     36777,
     36781,
@@ -174,11 +185,12 @@ const rows = [
     20
   ),
   createData(
+    11,
     <Custombutton bankName="ABBOTBANK" dChange={true} />,
     "ABBOT",
     1.0,
     22,
-    <Progressbar position="50" />,
+    <Progressbar position={50} />,
     734760,
     36777,
     36781,
@@ -186,11 +198,12 @@ const rows = [
     20
   ),
   createData(
+    12,
     <Custombutton bankName="ABBOTBANK" dChange={true} />,
     "ABBOT",
     1.0,
     22,
-    <Progressbar position="50" />,
+    <Progressbar position={50} />,
     734760,
     36777,
     36781,
@@ -198,11 +211,25 @@ const rows = [
     20
   ),
   createData(
+    13,
     <Custombutton bankName="ABBOTBANK" dChange={true} />,
     "ABBOT",
     1.0,
     22,
-    <Progressbar position="50" />,
+    <Progressbar position={50} />,
+    734760,
+    36777,
+    36781,
+    20,
+    20
+  ),
+  createData(
+    14,
+    <Custombutton bankName="ABBOTBANK" dChange={true} />,
+    "ABBOT",
+    22.0,
+    22,
+    <Progressbar position={50} />,
     734760,
     36777,
     36781,
@@ -235,7 +262,6 @@ function stableSort(array, comparator) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  console.log(stabilizedThis);
   return stabilizedThis.map((el) => el[0]);
 }
 
@@ -317,8 +343,8 @@ EnhancedTableHead.propTypes = {
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
-    paddingLeft: theme.spacing(0),
-    paddingRight: theme.spacing(1),
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(0),
     backgroundColor: "#141629",
   },
   highlight:
@@ -371,19 +397,17 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     backgroundColor: "#141629",
-    paddingLeft: theme.spacing(5),
     paddingRight: theme.spacing(5),
   },
 
-  container: {
-    maxHeight: 490,
+  containerr: {
+    maxHeight: 550,
   },
   paginationColor: {
     backgroundColor: "#141629",
   },
   paper: {
     width: "100%",
-    marginBottom: theme.spacing(2),
   },
   table: {
     minWidth: 750,
@@ -435,8 +459,8 @@ export default function EnhancedTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  const [page] = React.useState(0);
+  const [rowsPerPage] = React.useState(rows.length + 1);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -444,17 +468,6 @@ export default function EnhancedTable() {
     setOrderBy(property);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -463,7 +476,7 @@ export default function EnhancedTable() {
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <EnhancedTableToolbar />
-          <TableContainer className={classes.container}>
+          <TableContainer className={classes.containerr}>
             <Table className={classes.table}>
               <EnhancedTableHead
                 classes={classes}
@@ -519,7 +532,7 @@ export default function EnhancedTable() {
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.name}
+                        key={row.id}
                       >
                         <TableCell className={classes.tableCell} align="left">
                           {row.ticker}
@@ -572,24 +585,9 @@ export default function EnhancedTable() {
                       </TableRow>
                     );
                   })}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: 53 * emptyRows }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
               </TableBody>
             </Table>
           </TableContainer>
-          <TablePagination
-            className={classes.paginationColor}
-            rowsPerPageOptions={[10, 25]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
         </Paper>
       </div>
     </Container>
